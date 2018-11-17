@@ -39,22 +39,18 @@ class Login extends \Core\Controller {
             $result = \App\Models\External\Login::doLogin($userid, $password);
 
             if($result[0]) {
-                $_SESSION['accountID'] = $result[1];
-                $_SESSION['sessionID'] = $result[2];
 
-                if($result[3]) {
-                    header('Location: /internal/home');
+                if($in_json) {
+                    \App\Models\Json::send([
+                        "sessionid" => $result[1]
+                    ]);
                     return;
-                } 
-				
-                $result = \App\Models\Internal\User::doSuperRegister($_SESSION['accountID']);
-				if($result) {
-					header('Location: /internal/home');
-					return;
-				}
-				
-				unset($_SESSION['accountID'], $_SESSION['sessionID']);
-				(new \App\Controllers\External\Index($this->route_params))->Action(["Unexpected error!"]);
+                }
+
+                $_SESSION['accountID'] = $userid;
+                $_SESSION['sessionID'] = $result[1];
+
+                header('Location: /internal/home');
                 return;
             }
 
