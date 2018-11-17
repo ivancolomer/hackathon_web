@@ -1,4 +1,4 @@
-/*** SSH INSTALLATION ***/
+﻿/*** SSH INSTALLATION ***/
 sudo apt-get update && apt-get upgrade
 sudo apt-get install ssh
 
@@ -71,9 +71,28 @@ server {
         }
 }
 
-sudo chmod 777 /var/www/2do9
-sudo chmod 777 /var/www/2do9/
-chmod a+w /var/www/2do9/logs
+cd /var/www/hackeps
+composer install
+
+sudo chmod 777 /var/www/hackeps
+sudo chmod 777 /var/www/hackeps/
+chmod a+w /var/www/hackeps/logs
+
+sudo -u postgres psql postgres
+
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO public;
+
+
+
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO "2do9";
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO "2do9";
+GRANT ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public TO "2do9";
+
+
 
 
 sudo apt-get install nginx-extras
