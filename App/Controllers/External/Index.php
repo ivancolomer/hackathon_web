@@ -16,11 +16,11 @@ class Index extends \Core\Controller {
 
     public function Action($errors = [], $account_confirmed = false) {
         
-        $server_status = \App\Models\External\Index::getServerStatus();
+        $registered_count = \App\Models\External\Index::getServerStatus();
         View::renderTemplate('External/index.html', [
-            "players_registered" => number_format($server_status, 0, '.', ','),
-            "errors" => $errors,
-            "confirmed" => $account_confirmed
+            "users_registered" => number_format($registered_count[0], 0, '.', ','),
+            "organizations_registered" => number_format($registered_count[1], 0, '.', ','),
+            "errors" => $errors
         ]);       
     }
 }
