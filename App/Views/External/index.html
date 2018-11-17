@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <link rel="stylesheet" href="/css/internal-login.css">
+{% endblock %}
+
+{% block body %}
+	<div class="jumbotron text-center">
+	  <h1>My First Bootstrap Page</h1>
+	  <p>Registered: {{players_registered}}</p> 
+	</div>
+
+	{% if errors is defined and errors %}
+        <div style="left: 200px; top: 100px; display: block;" id="alertBox">
+			<span class="headline">
+				<strong>Error notice</strong>
+			</span>
+			<br>
+			{% for error in errors %}
+				<br>{{error|raw}}<br>
+			{% endfor %}
+			<br>
+			<br>
+			<div style="text-align: center;">  
+				<a class="btn-ok" onclick="document.getElementById('alertBox').style.display='none';">OK</a>
+			</div>
+        </div>
+    {% endif %}
+	
+{% endblock %}
