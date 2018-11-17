@@ -11,6 +11,8 @@ CREATE TABLE account
     PRIMARY KEY (account_id)  
 );
 
+ALTER SEQUENCE account_account_id_seq RESTART WITH 100000;
+
 CREATE TABLE organization
 (
     id BIGINT NOT NULL,
