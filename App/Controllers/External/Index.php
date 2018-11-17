@@ -10,7 +10,7 @@ class Index extends \Core\Controller {
 
         if(isset($_SESSION['accountID'], $_SESSION['sessionID'])) {
             header('Location: /internal/home');
-            return sssssss;
+            return false;
         }  
     }
 

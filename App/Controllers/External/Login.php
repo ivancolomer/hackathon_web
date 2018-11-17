@@ -16,26 +16,17 @@ class Login extends \Core\Controller {
 
     public function Action() {
 
-        if(!isset($_POST['login_username'], $_POST['login_password'])) {
+        if(!isset($_POST['login_userid'], $_POST['login_password'])) {
             (new \App\Controllers\External\Index($this->route_params))->Action();
             return;
         }
 
-        $username = preg_replace('/\s+/', '', $_POST['login_username']);
+        $in_json = isset($_POST['json']) && intval($_POST['json']) === 1;
+
+        $userid = intval($_POST['login_userid']);
         $password = $_POST['login_password'];
         
         $errors = [];
-
-        if(mb_strlen($username) !== mb_strlen($_POST['login_username'])) {
-            $errors[] = "Your username mustn't contain whitespace characters."; 
-        }   
-
-        if(mb_strlen($username) < 5) {
-            $errors[] = "Your username is too short. Please choose a new username which has between 5 and 20 characters."; 
-        }
-        else if(mb_strlen($username) > 20) {
-            $errors[] = "Your username is too long. Please choose a new username which has between 5 and 20 characters.";
-        }
 
         if(mb_strlen($password) < 8) {
             $errors[] = "Your password is too short. Please choose a new password which has between 8 and 45 characters."; 
@@ -45,7 +36,7 @@ class Login extends \Core\Controller {
         }
 
         if(count($errors) == 0) {
-            $result = \App\Models\External\Login::doLogin($username, $password);
+            $result = \App\Models\External\Login::doLogin($userid, $password);
 
             if($result[0]) {
                 $_SESSION['accountID'] = $result[1];

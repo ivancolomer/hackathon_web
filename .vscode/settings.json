@@ -1,3 +1,5 @@
 {
-    "php.validate.executablePath": "C:/Program Files (x86)/php-7.2.12-nts-Win32-VC15-x64/php.exe"
+    "php.validate.executablePath": "C:/php/php.exe",
+    "php.executablePath": "C:/php/php.exe",
+    
 }
