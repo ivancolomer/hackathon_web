@@ -1,46 +1,91 @@
-CREATE EXTENSION citext;
 
 CREATE TABLE account
 (
     account_id BIGSERIAL,
-    session_id CHARACTER(20) NOT NULL,
-    name CITEXT NOT NULL UNIQUE, -- CHARACTER VARYING(20)
+    session_id CHARACTER(20),
+    name CHARACTER VARYING(60) NOT NULL,
     password_hash CHARACTER VARYING(255) NOT NULL,
-    mail CITEXT NOT NULL UNIQUE, -- CHARACTER VARYING(80)
+
     time_created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
-    registered_ip CHARACTER VARYING(45) NOT NULL,
-    last_time_logged TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
-    mail_verified BOOLEAN NOT NULL DEFAULT FALSE,
-    ban_time_end TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT '2018-01-31 19:53:25',
-    
-    PRIMARY KEY (account_id),
-    CONSTRAINT check_empty_name CHECK (name != ''),
-    CONSTRAINT check_len_name CHECK (LENGTH(name) BETWEEN 5 AND 20)    
+
+    PRIMARY KEY (account_id)  
 );
 
-CREATE TABLE user_account
+CREATE TABLE student_account
 (
     account_id BIGINT NOT NULL,
-
-    level SMALLINT NOT NULL DEFAULT 1,
-    experience BIGINT NOT NULL DEFAULT 0,
-    last_ip CHARACTER VARYING(45) NOT NULL,
+	gender CHARACTER VARYING(20),
+    age DATE,
+	course BIGINT NOT NULL,
+	phonenumber CHARACTER(9) NOT NULL,
+	qualifications BIGINT NOT NULL,
+	observations CHARACTER VARYING(45),
     
     PRIMARY KEY (account_id),
     FOREIGN KEY (account_id) REFERENCES account(account_id) ON DELETE CASCADE
 );
 
-CREATE TABLE confirm_hashes (
-    
-	hash_id BIGSERIAL,
+CREATE TABLE teacher_account
+(
     account_id BIGINT NOT NULL,
-    hash_type SMALLINT NOT NULL,
-    
-    hash_code CHARACTER(20) NOT NULL,
-    
-    time_created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
-    
-    PRIMARY KEY (hash_id),
+	course_id BIGINT NOT NULL,
+	category INTEGER NOT NULL,
+	
+    PRIMARY KEY (account_id, course_id),
     FOREIGN KEY (account_id) REFERENCES account(account_id) ON DELETE CASCADE,
-	UNIQUE (account_id, hash_type)
+	FOREIGN KEY (course_id) REFERENCES course(id) ON DELETE CASCADE
+);
+
+CREATE TABLE courses
+(
+    id BIGSERIAL,
+    name CHARACTER VARYING(45),
+	organization BIGINT NOT NULL,
+	
+    PRIMARY KEY (id),
+	FOREIGN KEY (organization) REFERENCES organization(id) ON DELETE CASCADE
+);
+
+CREATE TABLE organization
+(
+    id BIGINT NOT NULL,
+    name CHARACTER VARYING(45) NOT NULL,
+    
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE green_message
+(
+	id BIGSERIAL,
+    account_id BIGINT NOT NULL,
+	course_id BIGINT NOT NULL,
+	message TEXT,
+    
+    PRIMARY KEY (id),
+	FOREIGN KEY (account_id) REFERENCES account(account_id) ON DELETE CASCADE,
+    FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE
+);
+
+CREATE TABLE sent_green_message
+(
+    message_id BIGINT NOT NULL,
+	account_id BIGINT NOT NULL,
+    already_read BOOLEAN NOT NULL DEFAULT 0,
+    
+    PRIMARY KEY (account_id, message_id),
+    FOREIGN KEY (account_id) REFERENCES account(account_id) ON DELETE CASCADE,
+	FOREIGN KEY (message_id) REFERENCES green_message(id) ON DELETE CASCADE
+);
+
+CREATE TABLE alert
+(
+	id BIGSERIAL,
+    account_id BIGINT NOT NULL,
+	latitude DOUBLE PRECISION NOT NULL,
+	altitude DOUBLE PRECISION NOT NULL,
+	alert_type INTEGER NOT NULL,
+	time_created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
+    
+    PRIMARY KEY (id),
+	FOREIGN KEY (account_id) REFERENCES account(account_id) ON DELETE CASCADE
 );
