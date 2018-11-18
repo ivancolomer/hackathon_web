@@ -18,7 +18,7 @@ class Register extends \Core\Controller {
 
         if(!isset($_POST['register_username'], $_POST['register_password'], $_POST['register_re_password'], $_POST['register_email'])) {
             View::renderTemplate('External/register.html', [
-                "siteKey" => \App\Config::CAPTCHA_SITE_KEY
+                "page_id" => 3,
             ]);
             return;
         }
@@ -78,13 +78,9 @@ class Register extends \Core\Controller {
 
             if($do_register[0]) {
                 View::renderTemplate('External/register.html', [
-                    "siteKey" => \App\Config::CAPTCHA_SITE_KEY,
-                    "success" => true
+                    "success" => true,
+                    "page_id" => 3
                 ]);
-
-                fastcgi_finish_request();
-                //SEND MAIL ASYNC
-                \App\Models\External\Register::sendMail($email, $username, $do_register[1], $do_register[2]);
                 return;
             }
 
@@ -92,10 +88,10 @@ class Register extends \Core\Controller {
         }    
         
         View::renderTemplate('External/register.html', [
-            "siteKey" => \App\Config::CAPTCHA_SITE_KEY,
             "errors" => $errors,
             "username" => $username,
-            "email" => $email
+            "email" => $email,
+            "page_id" => 3
         ]);
     } 
 }

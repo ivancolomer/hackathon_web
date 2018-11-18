@@ -13,5 +13,5 @@ class Config {
     const DB_USER = 'eps';
     const DB_PASSWORD = 'HackEPS_2018';
 
-    const SHOW_ERRORS = false;
+    const SHOW_ERRORS = true;
 }

@@ -6,20 +6,23 @@ use PDO;
 
 class Login extends \Core\Model {
 
-    public static function doLogin($userid, $password) {
+    public static function doLogin($userid, $password, $in_json) {
         
         $db = static::getDB();
 
         try {  
             $db->beginTransaction();
 
-            $stmt = $db->prepare("SELECT password_hash FROM account WHERE account_id = ?;");
+            $stmt = $db->prepare("SELECT a.password_hash, s.gender, t.category FROM account a LEFT JOIN student_account s ON(a.account_id = s.account_id AND a.account_id = ?) LEFT JOIN teacher_account t ON(a.account_id = t.account_id AND a.account_id = ?);");
             $stmt->bindValue(1, $userid, PDO::PARAM_INT);
+            $stmt->bindValue(2, $userid, PDO::PARAM_INT);
             
             $stmt->execute();
             
             if($user_info = $stmt->fetch(PDO::FETCH_NUM)) {
                 $hash = $user_info[0];
+                $is_student = ($user_info[1] != "");
+                $is_teacher = ($user_info[2] != "");
 
                 if(password_verify($password, $hash)) {
                     if (password_needs_rehash($hash, PASSWORD_DEFAULT, \Core\Utils::getHashOptions())) {
@@ -31,6 +34,11 @@ class Login extends \Core\Model {
                         $stmt->bindValue(2, $userid, PDO::PARAM_INT);
                         
                         $stmt->execute();
+                    }
+
+                    if($in_json && $is_teacher || !$in_json && $is_student) {
+                        $db->commit();
+                        return  [false, "No account with this username/password combination was found."];  
                     }
 
                     $sessionID = \Core\Utils::generateRandom(20, true, true);

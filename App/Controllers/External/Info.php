@@ -9,7 +9,7 @@ class Index extends \Core\Controller {
     public function Action() {
 
         View::renderTemplate('External/info.html', [
-            
+            "page_id" => 2,
         ]);       
     }
 }

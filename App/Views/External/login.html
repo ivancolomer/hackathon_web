@@ -5,22 +5,32 @@
 {% include "External/header/header.html" %}
 
 	<main role="main" class="container">
-		<h1 class="mt-5">Sticky footer with fixed navbar</h1>
-		<p class="lead">Pin a fixed-height footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS. A fixed navbar has been added with <code>padding-top: 60px;</code> on the <code>body &gt; .container</code>.</p>
-		
-		<form class="form-inline mt-2 mt-md-0">
-			<input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-		</form>
-
-		{% if errors is defined and errors %}
-			{% for error in errors %}
-				<br><br>
-				<div class="alert alert-danger">
-					<strong>Ups!</strong> {{error|raw}}
-				</div>
-			{% endfor %}
-		{% endif %}
+        <div class="login-form">
+            {% if errors is defined and errors %}
+                {% for error in errors %}
+                    <br><br>
+                    <div class="alert alert-danger">
+                        <strong>Ups!</strong> {{error|raw}}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <form action="/login" method="post">
+                <div class="avatar">
+                    <img src="/assets/img/avatar.png" alt="Avatar">
+                </div>
+                <h2 class="text-center">Member Login</h2>   
+                <div class="form-group">
+                    <input type="text" class="form-control" name="login_userid" placeholder="Id de Usuario" required="required">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="login_password" placeholder="Contraseña" required="required">
+                </div>        
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Iniciar Sesión</button>
+                </div>
+            </form>
+            <p class="text-center small">¿Aún no tiene registrado su colegio? <a href="#">Regístrelo aquí!</a></p>
+        </div>
 
     </main>
 

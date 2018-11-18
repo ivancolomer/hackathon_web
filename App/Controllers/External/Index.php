@@ -14,13 +14,13 @@ class Index extends \Core\Controller {
         }  
     }
 
-    public function Action($errors = [], $account_confirmed = false) {
+    public function Action() {
         
-        $registered_count = \App\Models\External\Index::getServerStatus();
+        //$registered_count = \App\Models\External\Index::getServerStatus();
         View::renderTemplate('External/index.html', [
-            "users_registered" => number_format($registered_count[0], 0, '.', ','),
-            "organizations_registered" => number_format($registered_count[1], 0, '.', ','),
-            "errors" => $errors
+            "page_id" => 0
+            /*"users_registered" => number_format($registered_count[0], 0, '.', ','),
+            "organizations_registered" => number_format($registered_count[1], 0, '.', ',')*/
         ]);       
     }
 }

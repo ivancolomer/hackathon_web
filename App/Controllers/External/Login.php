@@ -17,7 +17,9 @@ class Login extends \Core\Controller {
     public function Action() {
 
         if(!isset($_POST['login_userid'], $_POST['login_password'])) {
-            (new \App\Controllers\External\Index($this->route_params))->Action();
+            View::renderTemplate('External/login.html', [
+                "page_id" => 1 
+            ]);
             return;
         }
 
@@ -57,6 +59,9 @@ class Login extends \Core\Controller {
             $errors[] = $result[1];
         }
 
-        (new \App\Controllers\External\Index($this->route_params))->Action($errors);
+        View::renderTemplate('External/login.html', [
+                "page_id" => 1,
+                "errors" => $errors
+        ]);
     }  
 }
