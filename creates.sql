@@ -15,7 +15,7 @@ ALTER SEQUENCE account_account_id_seq RESTART WITH 100000;
 
 CREATE TABLE organization
 (
-    id BIGINT NOT NULL,
+    id BIGSERIAL,
     name CHARACTER VARYING(45) NOT NULL,
     
     PRIMARY KEY (id)

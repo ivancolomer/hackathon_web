@@ -18,7 +18,8 @@ class Index extends \Core\Controller {
         
         //$registered_count = \App\Models\External\Index::getServerStatus();
         View::renderTemplate('External/index.html', [
-            "page_id" => 0
+            "page_id" => 0,
+            "title" => "Inicio"
             /*"users_registered" => number_format($registered_count[0], 0, '.', ','),
             "organizations_registered" => number_format($registered_count[1], 0, '.', ',')*/
         ]);       

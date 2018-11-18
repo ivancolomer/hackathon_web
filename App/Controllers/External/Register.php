@@ -18,6 +18,7 @@ class Register extends \Core\Controller {
 
         if(!isset($_POST['register_username'], $_POST['register_password'], $_POST['register_re_password'], $_POST['register_email'])) {
             View::renderTemplate('External/register.html', [
+                "title" => "Registro",
                 "page_id" => 3,
             ]);
             return;
@@ -30,47 +31,34 @@ class Register extends \Core\Controller {
 
         $errors = [];
 
-        if (!isset($_POST['g-recaptcha-response'])) {
-            $errors[] = "Error with recaptcha response.";
-        } else {
-            $recaptcha = new \ReCaptcha\ReCaptcha(\App\Config::CAPTCHA_SECRET);
-
-            $resp = $recaptcha->setExpectedHostname($_SERVER['SERVER_NAME'])
-                              ->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
-
-            if (!$resp->isSuccess()) {
-                $errors[] = "Error with verifying recaptcha response.";
-            }
-        }
-
         if(!isset($_POST['register_check_terms'])) {
-            $errors[] = "You must accept our Terms and Conditons and the Privacy Policy.";
+            $errors[] = "Usted debe aceptar nuestros Términos y Condiciones de Uso.";
         }
         
         if(mb_strlen($username) !== mb_strlen($_POST['register_username'])) {
-            $errors[] = "Your username mustn't contain whitespace characters."; 
+            $errors[] = "Su nombre de usuario no debe contener espacios en blanco."; 
         }   
 
         if(mb_strlen($username) < 5) {
-            $errors[] = "Your username is too short. Please choose a new username which has between 5 and 20 characters."; 
+            $errors[] = "Nombre de usuario demasiado corto. Por favor, escoja un nuevo nombre de usuario entre 5 y 20 caracteres."; 
         }
         else if(mb_strlen($username) > 20) {
-            $errors[] = "Your username is too long. Please choose a new username which has between 5 and 20 characters.";
+            $errors[] = "Nombre de usuario demasiado largo. Por favor, escoja un nuevo nombre de usuario entre 5 y 20 caracteres.";
         }
 
         if(mb_strlen($password) < 8) {
-            $errors[] = "Your password is too short. Please choose a new password which has between 8 and 45 characters."; 
+            $errors[] = "Contraseña demasiado corta. Por favor, escoja una nueva contraseña entre 8 y 45 caracteres."; 
         }
         else if(mb_strlen($password) > 45) {
-            $errors[] = "Your password is too long. Please choose a new password which has between 8 and 45 characters.";
+            $errors[] = "Contraseña demasiado larga. Por favor, escoja una nueva contraseña entre 8 y 45 caracteres.";
         }
 
         if($password !== $re_password) {
-            $errors[] = "Your password and your confirm password don't match.";
+            $errors[] = "Sus contraseñas no coinciden.";
         }
 
         if(mb_strlen($email) > 80 || preg_match("/^[a-z0-9_\.-]+@([a-z0-9]+([\-]+[a-z0-9]+)*\.)+[a-z]{2,7}$/i", $email) !== 1) {
-            $errors[] = "Your e-mail address doesn't seem to be correct.";
+            $errors[] = "Su dirección de correo no parece ser cierta.";
         }
 
         if(count($errors) == 0) {
@@ -79,7 +67,8 @@ class Register extends \Core\Controller {
             if($do_register[0]) {
                 View::renderTemplate('External/register.html', [
                     "success" => true,
-                    "page_id" => 3
+                    "page_id" => 3,
+                    "title" => "Registro"
                 ]);
                 return;
             }
@@ -91,7 +80,8 @@ class Register extends \Core\Controller {
             "errors" => $errors,
             "username" => $username,
             "email" => $email,
-            "page_id" => 3
+            "page_id" => 3,
+            "title" => "Registro"
         ]);
     } 
 }

@@ -25,33 +25,32 @@ class Login extends \Core\Controller {
             $password = $_POST['login_password'];  
         }
         else {
-            $data = json_decode( file_get_contents('php://input'), true );
-            if(isset($_POST['login_userid'], $_POST['login_password'])) {
+            $data = json_decode(file_get_contents('php://input'), true);
+            if(isset($data['login_userid'], $data['login_password'])) {
                 $in_json = true;
                 $userid = intval($data['login_userid']);
                 $password = $data['login_password'];  
             }
             else {
                 View::renderTemplate('External/login.html', [
-                    "page_id" => 1 
+                    "page_id" => 1,
+                    "title" => "Iniciar Sesión"
                 ]);
                 return;
             }
         }
-
-        $in_json = isset($_POST['json']) && intval($_POST['json']) === 1;
         
         $errors = [];
 
         if(mb_strlen($password) < 8) {
-            $errors[] = "Your password is too short. Please choose a new password which has between 8 and 45 characters."; 
+            $errors[] = "Contraseña demasiado corta. Por favor, escoja una nueva contraseña entre 8 y 45 caracteres."; 
         }
         else if(mb_strlen($password) > 45) {
-            $errors[] = "Your password is too long. Please choose a new password which has between 8 and 45 characters.";
+            $errors[] = "Contraseña demasiado larga. Por favor, escoja una nueva contraseña entre 8 y 45 caracteres.";
         }
 
         if(count($errors) == 0) {
-            $result = \App\Models\External\Login::doLogin($userid, $password);
+            $result = \App\Models\External\Login::doLogin($userid, $password, $in_json);
 
             if($result[0]) {
 
@@ -72,9 +71,17 @@ class Login extends \Core\Controller {
             $errors[] = $result[1];
         }
 
+        if($in_json) {
+            \App\Models\Json::send([
+                "errors" => $errors
+            ]);
+            return;
+        }
+
         View::renderTemplate('External/login.html', [
                 "page_id" => 1,
-                "errors" => $errors
+                "errors" => $errors,
+                "title" => "Iniciar Sesión"
         ]);
     }  
 }

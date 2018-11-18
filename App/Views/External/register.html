@@ -1,91 +1,55 @@
 {% extends "base.html" %}
 
-{% block head %}
-    <link rel="stylesheet" href="/css/internal-register.css">
-    <script src='https://www.google.com/recaptcha/api.js'></script>
-    <script>
-        function onSubmit(token) {
-          document.getElementById("register-form").submit();
-        }
-    </script>
-{% endblock %}
-
 {% block body %}
+{% include "External/header/header.html" %}
     <main>
-        {% if errors is defined and errors %}
-        <div style="left: 150px; top: 150px;display: block;" id="alertBox" >
-			<span class="headline">
-				<strong>Error notice</strong>
-			</span>
-			<br>
-			{% for error in errors %}
-				<br>{{error|raw}}<br>
-			{% endfor %}
-			<br>
-			<br>
-			<div style="text-align: center;">
-				<a class="btn-ok" onclick="document.getElementById('alertBox').style.display='none';">OK</a>
-			</div>
-        </div>
-        {% endif %}
+        <div class="login-form">
+        
+                <form action="/register" method="post">
 
-        <form class="right" id="register-form" method="POST" action="/register">
-            <table>
-                <tbody>
-                <tr>
-                    <td class="label-first">
-                        <label class="">Username</label>
-                    </td>
-                    <td>
-                        <input type="text" class="short-input" name="register_username" id="register_username" value="{% if username is defined %}{{username}}{% endif %}">
-                    </td>
-                </tr>
-                <tr>
-                    <td class="label-first">
-                        <label class="">Pssword</label>
-                    </td>
-                    <td>
-                        <input type="password" class="short-input" name="register_password" id="register_password">
-                    </td>
-                </tr>
-                <tr>
-                    <td class="label-first">
-                        <label class="">Confirm password</label>
-                    </td>
-                    <td>
-                        <input type="password" class="short-input" name="register_re_password" id="register_re_password">
-                    </td>
-                </tr>
-                <tr>
-                    <td class="label-first">
-                        <label class="">E-mail</label>
-                    </td>
-                    <td>
-                        <input type="email" class="long-input" name="register_email" id="register_email" value="{% if email is defined %}{{email}}{% endif %}">
-                    </td>
-                </tr>
+                    <h2 class="text-center">Registre su centro</h2>   
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="register_username" placeholder="Nombre de usuario" required="required"{% if username is defined %} value="{{username}}"{% endif %}>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" name="register_password" placeholder="Contraseña" required="required">
+                    </div>  
+                    <div class="form-group">
+                        <input type="password" class="form-control" name="register_re_password" placeholder="Repite contraseña" required="required">
+                    </div> 
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="register_email" placeholder="Contraseña" required="required"{% if email is defined %} value="{{email}}"{% endif %}>
+                    </div> 
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="register_center_name" placeholder="Nombre del centro" required="required">
+                    </div> 
+                    <div class="form-group">
+                         <input type="checkbox" name="register_check_terms" required="required">Acepto los Terminos y Condiciones de Uso</input>
+                    </div> 
+                    {% if errors is defined and errors %}
+                        <div class="form-group">
+                        {% for error in errors %}
+                            <div class="alert alert-danger">
+                                <strong>Ups!</strong> {{error|raw}}
+                            </div>
+                        {% endfor %}
+                        </div>
+                    {% endif %}   
+                    {% if success is defined and success %}
+                        <div class="form-group">
+                            <div class="alert alert-success">
+                                <strong>Ups!</strong> Su centro se ha registrado con éxito!
+                            </div>
+                        </div>
+                    {% endif %}    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Registrar Centro</button>
+                    </div>
+                </form>
                 
-                <tr>
-                    <td class="first-checkbox">
-                        <input type="checkbox" name="register_check_terms" id="register_check_terms">
-                    </td>
-                    <td>
-                        <label class="label-checkbox">I accept the Terms and Conditions and the Privacy Policy.</label>
-                    </td>
-                </tr>
+                
+            </div>
+        </main>
 
-                <tr>
-                    <td class="first-button">
-                        <input type="button" value="Back" class="btn-back" onclick="window.location.href='/'">
-                    </td>
-                    <td class="second-button">
-                        <input type="submit" value="Register" class="btn-register g-recaptcha" data-sitekey="{{siteKey}}" data-callback='onSubmit'>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </form>
-    </main>
-
-	<div class="reg-bot"></div>
+{% include "External/footer/footer.html" %}
 {% endblock %}

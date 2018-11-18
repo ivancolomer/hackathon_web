@@ -11,7 +11,7 @@
                 <div class="avatar">
                     <img src="/assets/img/avatar.png" alt="Avatar">
                 </div>
-                <h2 class="text-center">Member Login</h2>   
+                <h2 class="text-center">Inicie Sesión</h2>   
                 <div class="form-group">
                     <input type="text" class="form-control" name="login_userid" placeholder="Id de Usuario" required="required">
                 </div>
@@ -21,7 +21,6 @@
                 {% if errors is defined and errors %}
                     <div class="form-group">
                     {% for error in errors %}
-                        <br><br>
                         <div class="alert alert-danger">
                             <strong>Ups!</strong> {{error|raw}}
                         </div>

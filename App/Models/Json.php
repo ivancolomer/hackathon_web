@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Config;
+use \Core\View;
 
 class Json extends \Core\Model {
 

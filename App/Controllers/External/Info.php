@@ -4,12 +4,13 @@ namespace App\Controllers\External;
 
 use \Core\View;
 
-class Index extends \Core\Controller {
+class Info extends \Core\Controller {
 
     public function Action() {
 
         View::renderTemplate('External/info.html', [
             "page_id" => 2,
+            "title" => "Información"
         ]);       
     }
 }
