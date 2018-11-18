@@ -49,7 +49,7 @@ CREATE TABLE student_account
 CREATE TABLE teacher_account
 (
     account_id BIGINT NOT NULL,
-	mail CHARACTER VARYING(255) NOT NULL,
+	mail CHARACTER VARYING(255),
 	organization_id BIGINT,
     
     PRIMARY KEY (account_id),

@@ -7,7 +7,7 @@ set_exception_handler(['\Core\Error', 'exceptionHandler']);
 
 ini_set('default_charset', 'UTF-8');
 ini_set('expose_php', 0);
-ini_set('session.name', \App\Config::APP_NAME . '-2018');
+ini_set('session.name', 'hackeps');
 ini_set('session.gc_probability', 0);
 ini_set('session.gc_divisor', 100);
 ini_set('session.cookie_httponly', 1);

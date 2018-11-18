@@ -11,7 +11,9 @@ class Home extends \Core\Controller {
     protected function before() {
         
         if(!isset($_SESSION['accountID'], $_SESSION['sessionID'])) {
-            header('Location: /');
+            echo $_SESSION['accountID'];
+            $_SESSION['sessionID'];
+            header('Location: /a2');
             return false;
         }
 
@@ -19,7 +21,7 @@ class Home extends \Core\Controller {
 
         if($this->user_info === null) {
             unset($_SESSION['accountID'], $_SESSION['sessionID']);
-            header('Location: /');
+            header('Location: /a3');
             return false;
         }
     }
@@ -27,7 +29,9 @@ class Home extends \Core\Controller {
     public function Action() {
 
         View::renderTemplate('Internal/home.html', [
-            'title'             => 'Home'
+            'title' => 'Inicio',
+            'page_id' => 0,
+            'accountID' => $user_info[0]
         ]);
     }
 }
