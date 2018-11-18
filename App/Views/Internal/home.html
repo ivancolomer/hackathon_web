@@ -5,7 +5,12 @@
 {% include "Internal/header/header.html" %}
 
 	<main role="main" class="container">
-
+        <br><br>
+        <ul class="list-group">
+            {% for value in alerts %}
+                <li class="list-group-item list-group-item-{{value.type}}">Alert! Time: {{value.time}} Latitude: {{value.lat}} Longitude: {{value.lon}} </li>          
+            {% endfor %}
+          </ul>
     </main>
 
 {% include "Internal/footer/footer.html" %}

@@ -38,7 +38,7 @@ class Login extends \Core\Model {
 
                     if($in_json && $is_teacher || !$in_json && $is_student) {
                         $db->commit();
-                        return  [false, "No se encuentra una cuenta con este id de usuario y/o constraseña."];  
+                        return  [false, "No se encuentra una cuenta con este id de usuario y/o constraseña.(1)"];  
                     }
 
                     $sessionID = \Core\Utils::generateRandom(20, true, true);
@@ -54,11 +54,11 @@ class Login extends \Core\Model {
                     return [true, $sessionID];  
                 } else {
                     $db->rollBack(); 
-                    return  [false, "No se encuentra una cuenta con este id de usuario y/o constraseña."];  
+                    return  [false, "No se encuentra una cuenta con este id de usuario y/o constraseña.(2)"];  
                 }  
             } else {
                 $db->rollBack();
-                return  [false, "No se encuentra una cuenta con este id de usuario y/o constraseña."];
+                return  [false, "No se encuentra una cuenta con este id de usuario y/o constraseña.(3)"];
             } 
         } catch (\PDOException $e) {
             $db->rollBack();

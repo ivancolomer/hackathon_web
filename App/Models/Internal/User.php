@@ -22,4 +22,22 @@ class User extends \Core\Model {
 
         return null;
     }
+
+    public static function getAlertsByID($accountID) {
+        
+        $db = static::getDB();
+
+        $stmt = $db->prepare("SELECT a.time_created, a.alert_type, a.altitude, a.latitude FROM alert a INNER JOIN student_account s ON(a.account_id = s.account_id) INNER JOIN teacher_account t ON(t.account_id = ?) INNER JOIN teacher_on_course tc ON (tc.account_id = t.account_id AND tc.course_id = s.course);");
+        $stmt->bindValue(1, $accountID, PDO::PARAM_INT);
+
+        $stmt->execute();
+            
+        $rows = [];
+
+        while($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $rows[] = $row;
+        }
+
+        return $rows;
+    }
 }

@@ -7,6 +7,7 @@ use \Core\View;
 class Home extends \Core\Controller {
 
     private $user_info = null;
+    private $alert_rows = null;
 
     protected function before() {
         
@@ -22,14 +23,22 @@ class Home extends \Core\Controller {
             header('Location: /');
             return false;
         }
+
+        $this->alert_rows = \App\Models\Internal\User::getAlertsByID($_SESSION['accountID']);
     }
 
     public function Action() {
 
+        $alerts = [];
+        foreach ($this->alert_rows as $row) {
+            $alerts[] = ["time" => $row[0], "type" => $row[1] == "1" ? "warning" : "danger", "lat" => $row[3], "lon" => $row[2]];
+        }
+
         View::renderTemplate('Internal/home.html', [
             'title' => 'Inicio',
             'page_id' => 0,
-            'accountID' => $this->user_info[0]
+            'accountID' => $this->user_info[0],
+            'alerts' => $alerts
         ]);
     }
 }

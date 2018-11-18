@@ -60,6 +60,7 @@ class Register extends \Core\Model {
 
         } catch (\PDOException $e) {
             $db->rollBack();
+            
         }
 
         return [false, "Unkown error."];
