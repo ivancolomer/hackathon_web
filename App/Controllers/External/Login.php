@@ -64,7 +64,7 @@ class Login extends \Core\Controller {
                 $_SESSION['accountID'] = $userid;
                 $_SESSION['sessionID'] = $result[1];
 
-                header('Location: /internal/' . $userid . '/' . $result[1]);
+                header('Location: /internal/home');
                 return;
             }
 
