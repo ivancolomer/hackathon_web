@@ -49,6 +49,17 @@ CREATE TABLE student_account
 CREATE TABLE teacher_account
 (
     account_id BIGINT NOT NULL,
+	mail CHARACTER VARYING(255) NOT NULL,
+	organization_id BIGINT,
+    
+    PRIMARY KEY (account_id),
+    FOREIGN KEY (account_id) REFERENCES account(account_id) ON DELETE CASCADE,
+	FOREIGN KEY (organization_id) REFERENCES organization(id)
+);
+
+CREATE TABLE teacher_on_course
+(
+    account_id BIGINT NOT NULL,
     course_id BIGINT NOT NULL,
     category INTEGER NOT NULL,
     

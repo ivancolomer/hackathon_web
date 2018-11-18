@@ -18,10 +18,10 @@
                         <input type="password" class="form-control" name="register_re_password" placeholder="Repite contraseña" required="required">
                     </div> 
                     <div class="form-group">
-                        <input type="text" class="form-control" name="register_email" placeholder="Contraseña" required="required"{% if email is defined %} value="{{email}}"{% endif %}>
+                        <input type="text" class="form-control" name="register_email" placeholder="Correo electrónico" required="required"{% if email is defined %} value="{{email}}"{% endif %}>
                     </div> 
                     <div class="form-group">
-                        <input type="text" class="form-control" name="register_center_name" placeholder="Nombre del centro" required="required">
+                        <input type="text" class="form-control" name="register_center_name" placeholder="Nombre del centro" required="required"{% if centro is defined %} value="{{centro}}"{% endif %}>
                     </div> 
                     <div class="form-group">
                          <input type="checkbox" name="register_check_terms" required="required">Acepto los Terminos y Condiciones de Uso</input>
@@ -38,7 +38,7 @@
                     {% if success is defined and success %}
                         <div class="form-group">
                             <div class="alert alert-success">
-                                <strong>Ups!</strong> Su centro se ha registrado con éxito!
+                                <strong>Su centro se ha registrado con éxito! Su ID de usuario es: {{accountID}}</strong>
                             </div>
                         </div>
                     {% endif %}    

@@ -16,7 +16,7 @@ class Register extends \Core\Controller {
 
     public function Action() {
 
-        if(!isset($_POST['register_username'], $_POST['register_password'], $_POST['register_re_password'], $_POST['register_email'])) {
+        if(!isset($_POST['register_username'], $_POST['register_password'], $_POST['register_re_password'], $_POST['register_email'], $_POST['register_center_name'])) {
             View::renderTemplate('External/register.html', [
                 "title" => "Registro",
                 "page_id" => 3,
@@ -28,6 +28,7 @@ class Register extends \Core\Controller {
         $password = $_POST['register_password'];
         $re_password = $_POST['register_re_password'];
         $email = $_POST['register_email'];
+        $centro = $_POST['register_center_name'];
 
         $errors = [];
 
@@ -39,11 +40,18 @@ class Register extends \Core\Controller {
             $errors[] = "Su nombre de usuario no debe contener espacios en blanco."; 
         }   
 
-        if(mb_strlen($username) < 5) {
-            $errors[] = "Nombre de usuario demasiado corto. Por favor, escoja un nuevo nombre de usuario entre 5 y 20 caracteres."; 
+        if(mb_strlen($centro) < 5) {
+            $errors[] = "Nombre de usuario demasiado corto. Por favor, escoja un nuevo nombre de usuario entre 5 y 40 caracteres."; 
         }
-        else if(mb_strlen($username) > 20) {
-            $errors[] = "Nombre de usuario demasiado largo. Por favor, escoja un nuevo nombre de usuario entre 5 y 20 caracteres.";
+        else if(mb_strlen($centro) > 40) {
+            $errors[] = "Nombre de usuario demasiado largo. Por favor, escoja un nuevo nombre de usuario entre 5 y 40 caracteres.";
+        }
+
+        if(mb_strlen($centro) < 5) {
+            $errors[] = "Nombre del centro demasiado corto. Por favor, escoja un nuevo nombre del centro entre 5 y 20 caracteres."; 
+        }
+        else if(mb_strlen($centro) > 20) {
+            $errors[] = "Nombre del centro demasiado largo. Por favor, escoja un nuevo nombre del centro entre 5 y 20 caracteres.";
         }
 
         if(mb_strlen($password) < 8) {
@@ -62,11 +70,12 @@ class Register extends \Core\Controller {
         }
 
         if(count($errors) == 0) {
-            $do_register = \App\Models\External\Register::doRegister($username, $password, $email);
+            $do_register = \App\Models\External\Register::doRegister($username, $password, $email, $centro);
 
             if($do_register[0]) {
                 View::renderTemplate('External/register.html', [
                     "success" => true,
+                    "accountID" => $do_register[1],
                     "page_id" => 3,
                     "title" => "Registro"
                 ]);
@@ -80,6 +89,7 @@ class Register extends \Core\Controller {
             "errors" => $errors,
             "username" => $username,
             "email" => $email,
+            "centro" => $centro,
             "page_id" => 3,
             "title" => "Registro"
         ]);
