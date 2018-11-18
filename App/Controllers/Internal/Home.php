@@ -11,7 +11,7 @@ class Home extends \Core\Controller {
     protected function before() {
         
         if(!isset($_SESSION['accountID'], $_SESSION['sessionID'])) {
-            header('Location: /a2');
+            header('Location: /');
             return false;
         }
 
@@ -19,7 +19,7 @@ class Home extends \Core\Controller {
 
         if($this->user_info === null) {
             unset($_SESSION['accountID'], $_SESSION['sessionID']);
-            header('Location: /a3');
+            header('Location: /');
             return false;
         }
     }

@@ -40,6 +40,20 @@ class Register extends \Core\Model {
             
             $stmt->execute();
 
+            $stmt = $db->prepare("INSERT INTO courses (name, organization) VALUES (?, ?);");
+            $stmt->bindValue(1, "1C-ESO", PDO::PARAM_STR);
+            $stmt->bindValue(2, $centerID, PDO::PARAM_INT);
+            
+            $stmt->execute();
+            $courseID = $db->lastInsertId();
+
+            $stmt = $db->prepare("INSERT INTO teacher_on_course (account_id, course_id, category) VALUES (?, ?, ?);");
+            $stmt->bindValue(1, $accountID, PDO::PARAM_INT);
+            $stmt->bindValue(2, $courseID, PDO::PARAM_INT);
+            $stmt->bindValue(3, 0, PDO::PARAM_INT);
+            
+            $stmt->execute();
+
             $db->commit();
 
             return [true, $accountID];
