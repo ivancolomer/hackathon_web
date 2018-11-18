@@ -16,17 +16,30 @@ class Login extends \Core\Controller {
 
     public function Action() {
 
-        if(!isset($_POST['login_userid'], $_POST['login_password'])) {
-            View::renderTemplate('External/login.html', [
-                "page_id" => 1 
-            ]);
-            return;
+        $userid = 0;
+        $password = "";
+        $in_json = false;
+
+        if(isset($_POST['login_userid'], $_POST['login_password'])) {
+            $userid = intval($_POST['login_userid']);
+            $password = $_POST['login_password'];  
+        }
+        else {
+            $data = json_decode( file_get_contents('php://input'), true );
+            if(isset($_POST['login_userid'], $_POST['login_password'])) {
+                $in_json = true;
+                $userid = intval($data['login_userid']);
+                $password = $data['login_password'];  
+            }
+            else {
+                View::renderTemplate('External/login.html', [
+                    "page_id" => 1 
+                ]);
+                return;
+            }
         }
 
         $in_json = isset($_POST['json']) && intval($_POST['json']) === 1;
-
-        $userid = intval($_POST['login_userid']);
-        $password = $_POST['login_password'];
         
         $errors = [];
 
