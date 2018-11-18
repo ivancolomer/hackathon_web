@@ -6,14 +6,7 @@
 
 	<main role="main" class="container">
         <div class="login-form">
-            {% if errors is defined and errors %}
-                {% for error in errors %}
-                    <br><br>
-                    <div class="alert alert-danger">
-                        <strong>Ups!</strong> {{error|raw}}
-                    </div>
-                {% endfor %}
-            {% endif %}
+            
             <form action="/login" method="post">
                 <div class="avatar">
                     <img src="/assets/img/avatar.png" alt="Avatar">
@@ -24,14 +17,27 @@
                 </div>
                 <div class="form-group">
                     <input type="password" class="form-control" name="login_password" placeholder="Contraseña" required="required">
-                </div>        
+                </div>  
+                {% if errors is defined and errors %}
+                    <div class="form-group">
+                    {% for error in errors %}
+                        <br><br>
+                        <div class="alert alert-danger">
+                            <strong>Ups!</strong> {{error|raw}}
+                        </div>
+                    {% endfor %}
+                    </div>
+                {% endif %}      
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-lg btn-block">Iniciar Sesión</button>
                 </div>
             </form>
-            <p class="text-center small">¿Aún no tiene registrado su centro? <a href="#">Regístrelo aquí!</a></p>
+            
+            
         </div>
-
+        <div class="col-xs-1 text-center">
+            <p class="leader">¿Aún no tiene registrado su centro? <a class="button" href="/register">Regístrelo aquí!</a></p>
+        </div>
     </main>
 
 {% include "External/footer/footer.html" %}
