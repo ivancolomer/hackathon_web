@@ -1,29 +1,4 @@
-﻿/*** SSH INSTALLATION ***/
-sudo apt-get update && apt-get upgrade
-sudo apt-get install ssh
-
-ssh-keygen
-passphrase: 1Ultimate!!!
-
-connect with sftp and get .ssh/id_rsa (private key, and use keygen to get a .ppk, import key ;))
-or
-cat .ssh/id_rsa
-
-ssh-copy-id pi@localhost
-rm id_rsa
-rm id_rsa.pub
-
-sudo nano /etc/ssh/sshd_config
-Port 2222
-PermitRootLogin without-password
-PasswordAuthentication no
-UsePAM no
-X11Forwarding no
-
-sudo service ssh restart
-
-
-/*** PHP INSTALLATION ***/
+﻿/*** PHP INSTALLATION ***/
 sudo apt-get update && apt-get upgrade
 
 sudo add-apt-repository ppa:ondrej/php
@@ -108,9 +83,6 @@ Restart nginx
 
 sudo service nginx restart
 
-cd /var/www/2do9/
-composer install
-
 https://alexwebdevelop.com/phpmailer-tutorial/
 
 /*** POSTGRE INSTALLATION ***/
@@ -124,35 +96,15 @@ Enter new password: [newpasswd] Super!%0?aa9
 Enter it again: [newpasswd] Super!%0?aa9
 postgres=# \quit
 
-CREATE USER "2do9" WITH PASSWORD 'an-amazing-pass!';  
-CREATE DATABASE darkorbit WITH OWNER "2do9";                         
-GRANT ALL PRIVILEGES ON DATABASE darkorbit TO "2do9"; 
+CREATE USER "eps" WITH PASSWORD 'Super!%0?aa9';  
+CREATE DATABASE hackeps WITH OWNER "eps";                         
+GRANT ALL PRIVILEGES ON DATABASE hackeps TO "eps"; 
 
-\c darkorbit
+\c hackeps
 
 //IMPORT
 -----------------
 //AFTER IMPORTING
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO "2do9";
-GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO "2do9";
-GRANT ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public TO "2do9";
-//DO INSERTS
-
-
-https://stackoverflow.com/questions/11753296/configure-postgresql-to-work-for-only-localhost-or-specified-ip-port
-
-
-
-
-
-/** MAIL CONFIGURATION **/
-
-
-
-
-
-
-
-
-
-*/5 * * * * /usr/bin/php -f /var/www/html/topUserautorank.php
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO "eps";
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO "eps";
+GRANT ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public TO "eps";
